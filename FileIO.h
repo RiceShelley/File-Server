@@ -7,11 +7,7 @@
 
 class FileIO {
 
-	private:
-		int maxPath = 260;
-
 	public:
-
 		/*
 		 * append text to file given 
 		 * path of file and text to append

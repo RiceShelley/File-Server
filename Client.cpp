@@ -143,12 +143,13 @@ void Client::recvFile(std::string fileName)
     strcat(path, fileName.c_str());
     std::cout << path << std::endl;
     // init data chunk
-    char dataChunk[chunkSize];
+    char dataChunk[(chunkSize + 10)];
     memset(dataChunk, 0, chunkSize);
     read(clientID, dataChunk, chunkSize);
     // create end tag
     char endTag[5];
     strcpy(endTag, "<EOF>");
+    std::string endOfChunk = "<EOC>";
     //chunks read
     int cRCount = 0;
     while (true)
@@ -169,12 +170,10 @@ void Client::recvFile(std::string fileName)
         // if substring is not in this chunk write complete chunk to file
         else
         {
-	    if (strlen(dataChunk) > 0) 
-		    std::cout << "shit chunk" << std::endl;
-	    else
-            	fileIO.writeBinaryFile(path, dataChunk, chunkSize);
-            memset(dataChunk, 0, chunkSize);
+            fileIO.writeBinaryFile(path, dataChunk, (chunkSize + 5));
+            memset(dataChunk, 0, (chunkSize + 10));
             read(clientID, dataChunk, chunkSize);
+	    strcat(dataChunk, endOfChunk.c_str());
         }
 	cRCount++;
     }

@@ -169,7 +169,10 @@ void Client::recvFile(std::string fileName)
         // if substring is not in this chunk write complete chunk to file
         else
         {
-            fileIO.writeBinaryFile(path, dataChunk, chunkSize);
+	    if (strlen(dataChunk) > 0) 
+		    std::cout << "shit chunk" << std::endl;
+	    else
+            	fileIO.writeBinaryFile(path, dataChunk, chunkSize);
             memset(dataChunk, 0, chunkSize);
             read(clientID, dataChunk, chunkSize);
         }

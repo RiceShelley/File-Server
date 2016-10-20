@@ -38,7 +38,7 @@ int main()
         return 0;
     }
 
-    listen(sock, 1);
+    listen(sock, 100);
 
     struct sockaddr_in clientDef;
     socklen_t clientln = sizeof(clientDef);

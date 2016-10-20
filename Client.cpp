@@ -11,8 +11,7 @@ Client::Client(int sock) : clientID(sock)
 void Client::start()
 {
     pthread_create(&thread, NULL, Client::staticThreadEntryPoint, this);
-    std::cout << "thread: " << &thread << std::endl;
-}
+    std::cout << "thread: " << &thread << std::endl; }
 
 // listen for clients
 void Client::listen()
@@ -26,6 +25,7 @@ void Client::listen()
         else
         {
             char fromC[128];
+	    memset(fromC, 0, 128); 
             read(clientID, fromC, 128);
             // ping server connection
             if (strcmp(fromC, "PING") == 0)
@@ -136,6 +136,7 @@ void Client::listen()
 void Client::recvFile(std::string fileName)
 {
     int chunkSize = 1000;
+    int bytesRead = 0;
     // create path of new file
     char path[260];
     memset(path, 0, 260);
@@ -143,15 +144,13 @@ void Client::recvFile(std::string fileName)
     strcat(path, fileName.c_str());
     std::cout << path << std::endl;
     // init data chunk
-    char dataChunk[(chunkSize + 10)];
+    char dataChunk[chunkSize];
     memset(dataChunk, 0, chunkSize);
-    read(clientID, dataChunk, chunkSize);
+    bytesRead = read(clientID, dataChunk, chunkSize);
     // create end tag
     char endTag[5];
     strcpy(endTag, "<EOF>");
-    std::string endOfChunk = "<EOC>";
     //chunks read
-    int cRCount = 0;
     while (true)
     {
         int endTagIndex = findSubStr(dataChunk, chunkSize, endTag, 5);
@@ -170,14 +169,15 @@ void Client::recvFile(std::string fileName)
         // if substring is not in this chunk write complete chunk to file
         else
         {
-            fileIO.writeBinaryFile(path, dataChunk, (chunkSize + 5));
-            memset(dataChunk, 0, (chunkSize + 10));
-            read(clientID, dataChunk, chunkSize);
-	    strcat(dataChunk, endOfChunk.c_str());
+            fileIO.writeBinaryFile(path, dataChunk, bytesRead);
+            memset(dataChunk, 0, chunkSize);
+            bytesRead = read(clientID, dataChunk, chunkSize);
         }
-	cRCount++;
+	printf("ran34\n");
     }
-    std::cout << "chunk count: " << cRCount << std::endl;
+    printf("ran\n");
+    std::string prompt = "File upload done\0";
+    write(clientID, prompt.c_str(), strlen(prompt.c_str()));
 }
 
 // retuns true if file exist
@@ -198,7 +198,7 @@ int Client::findSubStr(char* str, int strLen, char* find, int findLen)
     // iterate through str[]
     for (int i = 0; i < strLen; i++)
     {
-        if (str[i] == find[found])
+        if (((int) str[i]) == ((int) find[found]))
         {
             if (mark == 0)
             {

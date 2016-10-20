@@ -37,8 +37,6 @@ void FileIO::writeBinaryFile(char path[260], char* data, int len)
 {
 	std::ofstream file(path, std::ios::out | std::ios::app | std::ios::binary);
 	file.write(data, len);
-	std::string space = "\n\n\n";
-	file.write(space.c_str(), 3);
 	file.close();
 }
 

@@ -4,7 +4,7 @@ Client::Client(int sock) : clientID(sock)
 {
     authorized = true;
     conn = true;
-    strcpy(wDir, "storage/");
+    strcpy(wDir, "userBin/");
     std::cout << "Client object created" << std::endl;
 }
 
@@ -118,7 +118,7 @@ void Client::listen()
             else if (strcmp(fromC, "ROOTDIR") == 0)
             {
                 memset(wDir, 0, (sizeof(wDir) / sizeof(char)));
-                strcpy(wDir, "storage/");
+                strcpy(wDir, "userBin/");
             }
             // "" asociated with a dead client
             else if (strcmp(fromC, "") == 0)

@@ -11,7 +11,7 @@
 #include "Log.h"
 
 int sock;
-int port = 9877;
+int port = 9801;
 int client;
 // array of client objects
 std::vector<Client*> clients;

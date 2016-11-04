@@ -157,7 +157,7 @@ void Client::recvFile(std::string fileName)
         // if end tag is in this chunk substring, write, and return
         if (endTagIndex != -1)
         {
-            int endCSize = chunkSize - (chunkSize - endTagIndex);
+            int endCSize = (chunkSize - (chunkSize - endTagIndex)) - 1;
             char endDataChunk[endCSize];
             for (int i = 0; i < endTagIndex; i++)
             {

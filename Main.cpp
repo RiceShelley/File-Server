@@ -59,7 +59,6 @@ int main()
             if (clients.at(i)->getConnState() == false)
             {
                 clients.erase(clients.begin() + i);
-                std::cout << "client disconnect wooooot" << std::endl;
             }
         }
         std::cout << clients.size() << std::endl;

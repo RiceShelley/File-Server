@@ -173,9 +173,7 @@ void Client::recvFile(std::string fileName)
             memset(dataChunk, 0, chunkSize);
             bytesRead = read(clientID, dataChunk, chunkSize);
         }
-	printf("ran34\n");
     }
-    printf("ran\n");
     std::string prompt = "File upload done\0";
     write(clientID, prompt.c_str(), strlen(prompt.c_str()));
 }

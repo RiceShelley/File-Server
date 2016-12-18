@@ -15,48 +15,48 @@
 #include "FileIO.h"
 
 class Client {
-	
-	private:	
-		int clientID;
 
-		// security state of client
-		bool authorized;
+ private:
+	int clientID;
 
-		// is state of client connection 
-		bool conn;
+	// security state of client
+	bool authorized;
 
-		// thread reference stuff
-		pthread_t thread;
-		static void *staticThreadEntryPoint(void *c);
+	// is state of client connection 
+	bool conn;
 
-		// func maintain client
-		void listen();
+	// thread reference stuff
+	pthread_t thread;
+	static void *staticThreadEntryPoint(void *c);
 
-		// func for listing all files in storage 
-		std::string listFiles();
+	// func maintain client
+	void listen();
 
-		// func for recving files from client
-		void recvFile(std::string fileName);
+	// func for listing all files in storage 
+	 std::string listFiles();
 
-		// find a substring of charecter array
-		int findSubStr(char* str, int strLen, char* find, int findLen);
+	// func for recving files from client
+	void recvFile(std::string fileName);
 
-		// return true if file exist
-		bool fileExist(const std::string& filePath);
+	// find a substring of charecter array
+	int findSubStr(char *str, int strLen, char *find, int findLen);
 
-		// working directory path
-		char wDir[256];
+	// return true if file exist
+	bool fileExist(const std::string & filePath);
 
-		// FileIO object
-		FileIO fileIO;
-	public: 
-		// constructor
-		Client(int sock);
+	// working directory path
+	char wDir[256];
 
-		// get client connection state
-		bool getConnState();
+	// FileIO object
+	FileIO fileIO;
+ public:
+	// constructor
+	 Client(int sock);
 
-		// call to start client thread
-		void start();	
+	// get client connection state
+	bool getConnState();
+
+	// call to start client thread
+	void start();
 };
 #endif
